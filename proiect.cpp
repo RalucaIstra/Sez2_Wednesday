@@ -7,17 +7,27 @@
 
 using namespace std;
 
+//The Cast class represents actors and their roles
 class Cast
 {
 private:
-    string name;
-    string func;
+    string name; //Actor's name
+    string func; //Actor's role or function
 public:
-    void Set(string name,string func)
+
+   //Set the actor's name
+    void SetName(string name)
     {
         this->name=name;
-        this->func=func;
     }
+
+    //Set the actor's role and function
+     void SetFunc(string func)
+    {
+        this->func = func;
+    }
+
+    //Get the actor's name and role or function
     string GetName(string name)
     {
         return name;
@@ -29,7 +39,7 @@ public:
 
 };
 
-//genereaza nume
+//Generate a random name for actors
 string randomName() {
 
   char consonents[] = {'b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','z'};
@@ -59,16 +69,17 @@ string randomName() {
 
 }
 
+//The Actori class represents actors and related operations
 class Actori
 {
 private:
-    string monstru;
-    string mancare;
-    static int costMachiaj;
-    static int costMancare;
+    string monstru; //Type of monster for the actor
+    string mancare; //Type of food for the actor
+    static int costMachiaj; //Daily makeup cost
+    static int costMancare; //Daily food cost
 
 public:
-    //dieta
+    //Choose the type of food for actors
     string alegereMancarea()
     {
         string tip[]= {"Apt", "Vegetarian", "Flexitarian"};
@@ -82,7 +93,7 @@ public:
         mancare=tip[poz];
         return mancare;
     }
-    //cost machiaj
+    //Choose the type of monster for actors
     string alegereMonstru()
     {
         string tip[]= {"Vamp","wolf","merm","Clair","man"};
@@ -101,10 +112,14 @@ public:
         monstru=tip[poz];
         return monstru;
     }
+
+    //Get the daily food cost for all actors
     static int costMancareZilnica()
     {
         return costMancare;
     }
+
+    //Get the daily makeup cost for all actors
     static int costMachiajZilnic()
     {
         return costMachiaj;
@@ -114,36 +129,43 @@ public:
 int Actori :: costMancare=0;
 int Actori :: costMachiaj=0;
 
-//mostenire
+//The Personal class represents non-actor personnel
 class Personal : public Actori
 {
 public:
+
+    //Choose the type of monster for non-actor personnel (override)
     string alegeMonstru()
     {
         return "none";
     }
 };
 
+//The Transport class represents transportation and related operations
 class Transport
 {
 public:
+    //Calculate the number of buses required for a given number of people
     void cate (int n)
     {
         cout<<n/50+1;
     }
+
+    //Calculate the transportation cost for a given number of people
     virtual int cost(int n)
     {
         return (n/50+1)*5680*2;
     }
 };
 
+// The Cazari class represents accommodation and related operations
 class Cazari : public Transport
 {
 private:
     int room2;
     int room3;
 public:
-    //pret
+    // Calculate the cost of accommodation for a given number of people
     int cost(int n)
     {
         room2=(n-132)/2;
@@ -154,30 +176,31 @@ public:
     }
 };
 
+// The Total function calculates costs for different periods
 void Total(int zile, int n, int c1, int c2, int c3)
 {
     fstream file3("cost2.csv", ios::app);
     float dolar=4.63;
     Transport autocar;
     Cazari room;
-    float costAutocar=autocar.cost(n)/dolar;
-    float costCazare=room.cost(n)*zile/dolar;
-    float costMachiaj=c1*zile/dolar;
-    float costMancare=(c2+c3)*zile/dolar;
-    float costApa=(n/2*6)*zile/dolar;
-    float costCafea=(n/2*30)*zile/dolar;
-    float costSuc=(n/2.5*8)*zile/dolar;
-    float costChirie=(10000*zile - zile/10*(2/100)*10000*zile)/dolar;
+    float costAutocar = autocar.cost(n) / dolar;
+    float costCazare = room.cost(n) * zile / dolar;
+    float costMachiaj = c1 * zile / dolar;
+    float costMancare = (c2 + c3) * zile / dolar;
+    float costApa = (n / 2 * 6) * zile / dolar;
+    float costCafea = (n / 2 * 30) * zile / dolar;
+    float costSuc = (n / 2.5 * 8) * zile / dolar;
+    float costChirie = (10000 * zile - zile / 10 * (2 / 100) * 10000 * zile) / dolar;
 
-    file3<<"---Perioada de "<<zile<<" de zile---"<<endl;
-    file3<<"Transport: "<<","<<int(costAutocar)<<"$"<<endl;
-    file3<<"Cazare: "<<","<<int(costCazare)<<"$"<<endl;
-    file3<<"Machiaj: "<<","<<int(costMachiaj)<<"$"<<endl;
-    file3<<"Mancare: "<<","<<int(costMancare)<<"$"<<endl;
-    file3<<"Apa: "<<","<<int(costApa)<<"$"<<endl;
-    file3<<"Cafea: "<<","<<int(costCafea)<<"$"<<endl;
-    file3<<"Suc: "<<","<<int(costSuc)<<"$"<<endl;
-    file3<<"Inchiriere spatiu: "<<","<<int(costChirie)<<"$"<<endl<<endl;
+    file3 << "---Perioada de " << zile << " de zile---" << endl;
+    file3 << "Transport: " << "," << int(costAutocar) << "$" << endl;
+    file3 << "Cazare: " << "," << int(costCazare) << "$" << endl;
+    file3 << "Machiaj: " << "," << int(costMachiaj) << "$" << endl;
+    file3 << "Mancare: " << "," << int(costMancare) << "$" << endl;
+    file3 << "Apa: " << "," << int(costApa) << "$" << endl;
+    file3 << "Cafea: " << "," << int(costCafea) << "$" << endl;
+    file3 << "Suc: " << "," << int(costSuc) << "$" << endl;
+    file3 << "Inchiriere spatiu: " << "," << int(costChirie) << "$" << endl << endl;
     file3.close();
 
 }
@@ -187,7 +210,7 @@ int main()
     int i;
 
 
-    string fname="wednesdayCast.csv";
+    string fname = "wednesdayCast.csv";
     vector<vector<string>> content;
     vector<string> row;
     string line, word;
@@ -206,38 +229,39 @@ int main()
         }
     }
     else
-        cout<<"Could not open the file\n";
+        cout << "Could not open the file\n";
 
     for(i=0; i<content.size(); i++)
     {
 
-        cout<<"name: "<<content[i][0]<<"\t"<<"function: "<<content[i][1]<<endl;
+        cout<<"name: " << content[i][0] << "\t" << "function: " << content[i][1] << endl;
 
     }
     file.close();
 
-    //noii figuranti
+    //The new actors
 
-   /* string name,func;
+    string name,func;
     string costum[7]={"vamp","wolf","merm","clair","man"};
 
     string fname1="wednesdayCast.csv";
     fstream file1 (fname1, ios::app );
 
-    for (i=0;i<=132;i++)
+    for (i=0; i<=132; i++)
     {
 
-        name=randomName();
-        func=costum[rand() %5];
+        name = randomName();
+        func = costum[rand() %5];
         Cast p1;
-        p1.Set(name,func);
-       file1<< p1.GetName(name)<<','<<p1.GetFunc(func)<<endl;
+        p1.SetName(name);
+        p1.SetFunc(func);
+       file1 << p1.GetName(name) << ',' << p1.GetFunc(func) << endl;
 
 
     }
-    file1.close(); */
+    file1.close();
 
-    //meniu
+    //The meniu for 3 days
 
     string fname2="masa.csv";
     vector <string> row1;
@@ -246,7 +270,7 @@ int main()
     fstream f1 (fname2, ios::in);
     if (!file.is_open())
     {
-        cout<<"eroare la deschidere!!"<<endl;
+        cout << "eroare la deschidere!!" << endl;
 
     }
     else
@@ -264,52 +288,52 @@ int main()
     }
     f1.close();
 
-    cout<<"-------------MENIU 1------------"<<endl;
-    cout<<"----- Meniu pentru cei apti ----"<<endl;
-    cout<<"supa: "<< meniu[rand() %8][0]<<endl;
-    cout<<"fel principal: "<<meniu[(rand() %9) +8][0]<<endl;
-    cout<<"desert: "<<meniu[(rand() %7) +17][0]<<endl;
-    cout<<"----- Meniu pentru vegetarieni----"<<endl;
-    cout<<"supa: "<< meniu[rand() %3 +5][0]<<endl;
-    cout<<"fel principal: "<<meniu[(rand() %3) +14][0]<<endl;
-    cout<<"desert: "<<meniu[(rand() %7) +17][0]<<endl;
-    cout<<"----- Meniu pentru flexitarieni ----"<<endl;
-    cout<<"supa: "<< meniu[rand() %5 +3][0]<<endl;
-    cout<<"fel principal: "<<meniu[(rand() %6) +11][0]<<endl;
-    cout<<"desert: "<<meniu[(rand() %7) +17][0]<<endl<<endl<<endl;
+    cout << "-------------MENIU 1------------" << endl;
+    cout << "----- Meniu pentru cei apti ----" << endl;
+    cout << "supa: " << meniu[rand() % 8][0] << endl;
+    cout << "fel principal: " << meniu[(rand() % 9) + 8][0] << endl;
+    cout << "desert: " << meniu[(rand() % 7) +17][0] << endl;
+    cout << "----- Meniu pentru vegetarieni----" << endl;
+    cout << "supa: " << meniu[rand() % 3 + 5][0] << endl;
+    cout << "fel principal: " << meniu[(rand() % 3) + 14][0] << endl;
+    cout << "desert: " << meniu[(rand() % 7) + 17][0] << endl;
+    cout << "----- Meniu pentru flexitarieni ----" << endl;
+    cout << "supa: " << meniu[rand() % 5 + 3][0] << endl;
+    cout << "fel principal: "<<meniu[(rand() % 6) + 11][0] << endl;
+    cout << "desert: "<<meniu[(rand() % 7) + 17][0] << endl << endl << endl;
 
-    cout<<"-------------MENIU 2------------"<<endl;
-    cout<<"----- Meniu pentru cei apti ----"<<endl;
-    cout<<"supa: "<< meniu[rand() %8][0]<<endl;
-    cout<<"fel principal: "<<meniu[(rand() %9) +8][0]<<endl;
-    cout<<"desert: "<<meniu[(rand() %7) +17][0]<<endl;
-    cout<<"----- Meniu pentru vegetarieni----"<<endl;
-    cout<<"supa: "<< meniu[rand() %3 +5][0]<<endl;
-    cout<<"fel principal: "<<meniu[(rand() %3) +14][0]<<endl;
-    cout<<"desert: "<<meniu[(rand() %7) +17][0]<<endl;
-    cout<<"----- Meniu pentru flexitarieni ----"<<endl;
-    cout<<"supa: "<< meniu[rand() %5 +3][0]<<endl;
-    cout<<"fel principal: "<<meniu[(rand() %6) +11][0]<<endl;
-    cout<<"desert: "<<meniu[(rand() %7) +17][0]<<endl<<endl<<endl;
+    cout << "-------------MENIU 2------------" << endl;
+    cout << "----- Meniu pentru cei apti ----" << endl;
+    cout << "supa: "<< meniu[rand() % 8][0] << endl;
+    cout << "fel principal: " << meniu[(rand() % 9) + 8][0] << endl;
+    cout << "desert: " << meniu[(rand() % 7) + 17][0] << endl;
+    cout << "----- Meniu pentru vegetarieni----" << endl;
+    cout << "supa: " << meniu[rand() % 3 + 5][0] << endl;
+    cout << "fel principal: " << meniu[(rand() % 3) + 14][0] << endl;
+    cout << "desert: " << meniu[(rand() % 7) + 17][0] << endl;
+    cout << "----- Meniu pentru flexitarieni ----" << endl;
+    cout << "supa: " << meniu[rand() % 5 + 3][0] << endl;
+    cout << "fel principal: " << meniu[(rand() % 6) + 11][0] << endl;
+    cout << "desert: " << meniu[(rand() % 7) + 17][0] << endl << endl << endl;
 
-    cout<<"-------------MENIU 3------------"<<endl;
-    cout<<"----- Meniu pentru cei apti ----"<<endl;
-    cout<<"supa: "<< meniu[rand() %8][0]<<endl;
-    cout<<"fel principal: "<<meniu[(rand() %9) +8][0]<<endl;
-    cout<<"desert: "<<meniu[(rand() %7) +17][0]<<endl;
-    cout<<"----- Meniu pentru vegetarieni----"<<endl;
-    cout<<"supa: "<< meniu[rand() %3 +5][0]<<endl;
-    cout<<"fel principal: "<<meniu[(rand() %3) +14][0]<<endl;
-    cout<<"desert: "<<meniu[(rand() %7) +17][0]<<endl;
-    cout<<"----- Meniu pentru flexitarieni ----"<<endl;
-    cout<<"supa: "<< meniu[rand() %5 +3][0]<<endl;
-    cout<<"fel principal: "<<meniu[(rand() %6) +11][0]<<endl;
-    cout<<"desert: "<<meniu[(rand() %7) +17][0]<<endl;
+    cout << "-------------MENIU 3------------" << endl;
+    cout << "----- Meniu pentru cei apti ----" << endl;
+    cout << "supa: " << meniu[rand() % 8][0] << endl;
+    cout << "fel principal: "<<meniu[(rand() % 9) + 8][0] << endl;
+    cout << "desert: " << meniu[(rand() % 7) + 17][0] << endl;
+    cout << "----- Meniu pentru vegetarieni----" << endl;
+    cout << "supa: " << meniu[rand() % 3 + 5][0] << endl;
+    cout << "fel principal: " << meniu[(rand() % 3) + 14][0] << endl;
+    cout << "desert: " << meniu[(rand() % 7) + 17][0] << endl;
+    cout << "----- Meniu pentru flexitarieni ----" << endl;
+    cout << "supa: " << meniu[rand() % 5 + 3][0] << endl;
+    cout << "fel principal: " << meniu[(rand() % 6) + 11][0] << endl;
+    cout << "desert: " << meniu[(rand() % 7) + 17][0] << endl;
 
 
     fstream des ("cost2.csv", ios::app);
     if (!des.is_open())
-        cout<<"eroare";
+        cout << "eroare";
     else{
     Actori actori;
     Personal pers;
@@ -350,7 +374,3 @@ int main()
     return 0;
 
 }
-
-
-
-
